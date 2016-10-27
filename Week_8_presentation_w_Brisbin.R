@@ -39,3 +39,72 @@ x
 apply(x,1,sum) #row sums (second argument 1 indicates row)
 apply(x,2,sum) #column sums (second argument 2 indicates columns)
 
+
+
+
+
+
+#diamonds practice set 
+#need to use read.table NOT read.csv as it is not a CSV file 
+# read.table also does not assume a header add argument (header=T)
+mydata = read.table("C:/Users/dmarkham/Code/UWEC/Programming/Week8/Week8_Practice_R/diamonds.txt",header=T)
+
+attach(mydata)
+
+counts = table(Clarity)
+
+mytest = chisq.test(counts) #assumes all categories are equally likely, no need for probability parameter
+
+#Chi-squared test for given probabilities
+
+#data:  counts
+# X-squared = 18.2013, df = 4, p-value = 0.001127
+
+#Based on the p-value 0.001127, we can reject the null hypothesis 
+# that this data set could be a random sample from a population in 
+#which each level of clarity is equally likely. 
+pval = mytest$p.value
+
+if(pval < .05){
+  print("not plausible")}else{
+    print("plausible")
+  }
+
+
+###FUNCTION FOR CHI SQUARE ###
+EqualityTest <- function(x){
+    #use a chi-square GOF test to test whether x could be a random sample
+    #from a population in which all 5 values are equally likely
+  counts = table(x)
+  mytest = chisq.test(counts) #assumes all categories are equally likely, no need for probability parameter
+  pval = mytest$p.value #extracting p-value
+  if(pval < .05){print("not plausible")}
+  else{print("plausible")
+    }
+} #end EqualityTest
+
+
+EqualityTest(Clarity) #without sig level
+
+
+###FUNCTION FOR CHI SQUARE ###
+EqualityTest2 <- function(x, alpha = .05){
+  #use a chi-square GOF test to test whether x could be a random sample
+  #from a population in which all 5 values are equally likely
+  #alpha = significance level
+  counts = table(x)
+  mytest = chisq.test(counts) #assumes all categories are equally likely, no need for probability parameter
+  pval = mytest$p.value #extracting p-value
+  if(pval < alpha){print("not plausible")}
+  else{print("plausible")
+  }
+} #end EqualityTest
+
+
+EqualityTest2(Clarity,.001)
+EqualityTest2(Clarity,.01)
+
+
+ls() #shows all the variables in memory
+
+

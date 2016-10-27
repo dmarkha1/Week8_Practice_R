@@ -108,3 +108,46 @@ EqualityTest2(Clarity,.01)
 ls() #shows all the variables in memory
 
 
+#Start of WebWork Problems
+#----------------------------------------------
+
+#apply
+x = matrix( c(1,3,2, 6,NA,4), nr = 3 )
+x
+
+# [,1] [,2]
+# [1,]    1    6
+# [2,]    3   NA
+# [3,]    2    4
+
+
+apply(x, 2, max) #column maxes with NULLs
+# ?max
+
+apply(x, 2, max, na.rm=T) #column maxes without NULLS 
+
+apply(x,1,min,na.rm=T)#row maxes 
+
+
+#sort 
+
+x = matrix( c(1,3,2, 6,NA,4), nr = 3 )
+
+apply(x, 2, sort)
+
+
+M <- matrix(seq(1,16), 4, 4)
+
+M <- array( seq(32), dim = c(4,4,2))
+
+M
+
+x <- 1:20
+
+y <- factor(rep(letters[1:5], each = 4))
+
+print(factor)
+
+tapply(x, y, sum) 
+
+

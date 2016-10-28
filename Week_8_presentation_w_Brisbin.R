@@ -135,19 +135,27 @@ x = matrix( c(1,3,2, 6,NA,4), nr = 3 )
 
 apply(x, 2, sort)
 
+#best description of tapply 
+attach(iris)
 
-M <- matrix(seq(1,16), 4, 4)
 
-M <- array( seq(32), dim = c(4,4,2))
+tapply(iris$Petal.Length,Species,mean)
 
-M
+iris$Petal.Length[1:5]
 
-x <- 1:20
+head(iris)
 
-y <- factor(rep(letters[1:5], each = 4))
 
-print(factor)
+#Ames Housing Examples---------------------
 
-tapply(x, y, sum) 
+ames = read.csv("AmesHousing.csv")
 
+attach(ames)
+
+medianAmes= tapply(ames$SalePrice,Land.Slope,median)
+
+medianAmes
+# 
+# Gtl    Mod    Sev 
+# 159950 188000 206975 
 

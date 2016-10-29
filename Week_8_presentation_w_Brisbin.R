@@ -159,3 +159,59 @@ medianAmes
 # Gtl    Mod    Sev 
 # 159950 188000 206975 
 
+# Columns 45 to 54 of AmesHousing.csv all contain quantitative variables. 
+# Create a new data frame, ames2, consisting of just columns 45 to 54.
+ames2 = ames[ , 45:54]
+
+head(ames2)
+
+# 3*(mean(x) - median(x)) / sd(x) Create a function that measure Pearson Skew
+
+
+y = c( 1, 1, 2, 10 )
+
+PearsonSkew = function(x){
+  3*(mean(x,na.rm=T) - median(x,na.rm=T)) / sd(x,na.rm=T)
+} #added na.rm parameter for mean, median, and mode to ignore Null vals
+PearsonSkew(y)
+
+# A. Bsmt.Full.Bath 
+# B. X1st.Flr.SF 
+# C. Bedroom.AbvGr 
+# D. Full.Bath
+
+# a coefficient > 0 indicates right skewness, and 
+# a coefficient < 0 indicates left skewness.)
+PearsonSkew(ames2$Bsmt.Full.Bath) #most right skewed
+PearsonSkew(ames2$X1st.Flr.SF)
+PearsonSkew(ames2$Bedroom.AbvGr)
+PearsonSkew(ames2$Full.Bath) #most left skewed
+
+# Mark and Bernard want to buy a house. The most important factors 
+# to them are the neighborhood, the size of the house, and its price. 
+# They decide on a scoring system to help them prioritize which houses to consider:
+
+#   1 point per 1000 square feet of Gr.Liv.Area 
+# (for example, a 1,500 square foot house would get 1.5 points)
+
+# 3 points for a SalePrice less than $300,000, 
+# plus 2 additional points for a SalePrice less than $200,000
+
+# 3 points for a house in the Northridge (NoRidge) neighborhood, 
+# or 2 points for a house in the Northridge Heights neighborhood (NridgHt).
+#use colnames function to find index numbers for column names 
+colnames(ames)
+
+HouseScore<-function(x){
+  score = as.numeric(x[48])/1000
+  if(as.numeric(x[82]) < 200000){ score = score + 5 }
+  else if(as.numeric(x[82]) < 300000){ score = score + 3 }
+  if(x[14] == "NoRidge"){ score = score + 3 }
+  if(x[14] == "NridgHt"){ score = score + 2 }
+  return(score)
+} # end of function HouseScore
+
+myScores = apply( ames, 1, HouseScore )
+max( myScores )
+
+which.max(myScores)
